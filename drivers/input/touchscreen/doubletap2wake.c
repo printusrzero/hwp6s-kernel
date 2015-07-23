@@ -1,19 +1,4 @@
 /*
- * drivers/input/touchscreen/doubletap2wake.c
- *
- *
- * Copyright (c) 2013, Dennis Rassmann <showp1984@gmail.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
- * more details.
- *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
@@ -77,6 +62,7 @@ int dt2w_switch = DT2W_DEFAULT;
 int s2s_switch =  DT2W_DEFAULT;
 static int dt2w_prev_switch, y_res, s2s_length = INT_MAX;
 static unsigned int dt2w_duration = DT2W_DUR_DEFAULT;
+static unsigned int dt2w_doubletap2wake = DT2W_DEFAULT;
 static cputime64_t tap_time_pre = 0;
 static int touch_x = 0, touch_y = 0, touch_nr = 0, x_pre = 0, y_pre = 0, x0 = -1;
 static bool touch_x_called = false, touch_y_called = false, touch_cnt = false;
@@ -457,7 +443,7 @@ static ssize_t dt2w_doubletap2wake_dump(struct device *dev,
 	return count;
 }
 
-static DEVICE_ATTR(doubletap2wake, (S_IWUSR|S_IRUGO),
+static DEVICE_ATTR(dt2w_doubletap2wake, (S_IWUSR|S_IRUGO),
 	dt2w_doubletap2wake_show, dt2w_doubletap2wake_dump);
 
 static ssize_t s2s_sweep2sleep_show(struct device *dev,
@@ -597,7 +583,8 @@ static int __init doubletap2wake_init(void)
 		pr_warn("%s: android_touch_kobj create_and_add failed\n", __func__);
 	}
 #endif
-	rc = sysfs_create_file(android_touch_kobj, &dev_attr_doubletap2wake.attr);
+	
+	rc = sysfs_create_file(android_touch_kobj, &dev_attr_dt2w_doubletap2wake.attr);
 	if (rc) {
 		pr_warn("%s: sysfs_create_file failed for doubletap2wake\n", __func__);
 	}
