@@ -584,7 +584,7 @@ static int __init doubletap2wake_init(void)
 	}
 #endif
 	
-	rc = sysfs_create_file(android_touch_kobj, &dev_attr_dt2w_doubletap2wake.attr);
+	rc = sysfs_create_file(android_touch_kobj, &dev_attr_doubletap2wake.attr);
 	if (rc) {
 		pr_warn("%s: sysfs_create_file failed for doubletap2wake\n", __func__);
 	}
